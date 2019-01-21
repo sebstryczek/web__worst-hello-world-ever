@@ -13,9 +13,6 @@ module.exports = {
   app: {
     port: process.env.APP_PORT,
     jwtSecret: process.env.JWT_SECRET,
-    jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
-    jwtTokenLife: process.env.JWT_TOKEN_LIFE,
-    jwtRefreshTokenLife: process.env.JWT_REFRESH_TOKEN_LIFE,
   },
   db: {
     host: process.env.DB_HOST,

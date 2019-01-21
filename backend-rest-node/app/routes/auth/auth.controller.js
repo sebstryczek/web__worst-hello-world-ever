@@ -1,66 +1,63 @@
-const handleErrorsAsync = require('../../utils/handleErrorsAsync');
-const generateToken = require('../../auth/generateToken');
+const { COLLECTION_NAME } = require('../users/users.consts');
 
-const authController = db => appConfig => {
-  const userModel = require('../users/user.model')(db);
-  const tokenList = {}
-
+const authController = db => generateToken => {
   const signUp = async (req, res, next) => {
     const { email, password } = req.body;
-    const [ error, user ] = await handleErrorsAsync(userModel.create({ email, password }));
-    if (error) {
-      switch (error.code) {
-        case 11000: return res.status(403).json({ error: 'Email is already in use' });
-        default: return res.status(403).json({ error: 'Database error' });
-      }
+  
+    const collection = db.collection( COLLECTION_NAME );
+    const foundUser = await collection.findOne({ email });
+    
+    if (foundUser) {
+      return res.status(403).json({ error: 'Email is already in use'});
     }
 
-    const id = user._id
-    const token = generateToken(id, appConfig.jwtSecret, appConfig.jwtTokenLife);
-    const refreshToken = generateToken(id, appConfig.jwtRefreshSecret, appConfig.jwtRefreshTokenLife);
-    const response = { token, refreshToken };
-    tokenList[refreshToken] = response;
-    
-    res.status(200).json( response );
+    const result = await collection.insertOne({ email, password });
+    const id = result.ops[0]._id
+    const token = generateToken( id );
+
+    res.status(200).json({ token });
   }
 
   const signIn = async (req, res, next) => {
     const { email, password } = req.body;
-    const [ error, user ] = await handleErrorsAsync(userModel.getAuthenticated(email, password));
-    if (error) {
-      return res.status(403).json({ error: error.message });
+  
+    const collection = db.collection( COLLECTION_NAME );
+
+    //SPRAWDZIĆ
+    const foundUser = await collection.findOne({ email, password });
+
+    if (!foundUser) {
+      return res.status(401).json({ error: 'Unauthorized access.' } );
     }
 
-    const id = user._id
-    const token = generateToken(id, appConfig.jwtSecret, appConfig.jwtTokenLife);
-    const refreshToken = generateToken(id, appConfig.jwtRefreshSecret, appConfig.jwtRefreshTokenLife);
-    const response = { token, refreshToken };
-    tokenList[refreshToken] = response
+    const id = foundUser._id
+    const token = generateToken( id );
 
-    res.status(200).json( response );
-  }
-
-  const refreshToken = async (req, res, next) => {
-    const { refreshToken, email } = req.body;
-    const [ error, user ] = await handleErrorsAsync(userModel.findOne({ email }));
-    if (error) {
-      return res.status(403).json({ error: error.message });
-    }
-    
-    if (!user) {
-      return res.status(403).json({ error: 'User not found' });
-    }
-
-    if (!refreshToken || !(refreshToken in tokenList)) {
-      return res.status(404).json({ error: 'Invalid request' })
-    }
-    const id = user._id;
-    const token = generateToken(id, appConfig.jwtSecret, appConfig.jwtTokenLife);
-    tokenList[ refreshToken ].token = token
     res.status(200).json({ token });
   }
 
-  return { signIn, signUp, refreshToken }
+//   router.post('/token', (req,res) => {
+//     // refresh the damn token
+//     const postData = req.body
+//     // if refresh token exists
+//     if((postData.refreshToken) && (postData.refreshToken in tokenList)) {
+//         const user = {
+//             "email": postData.email,
+//             "name": postData.name
+//         }
+//         const token = jwt.sign(user, config.secret, { expiresIn: config.tokenLife})
+//         const response = {
+//             "token": token,
+//         }
+//         // update the token in the list
+//         tokenList[postData.refreshToken].token = token
+//         res.status(200).json(response);        
+//     } else {
+//         res.status(404).send('Invalid request')
+//     }
+// })
+
+  return { signIn, signUp }
 }
 
 module.exports = authController;

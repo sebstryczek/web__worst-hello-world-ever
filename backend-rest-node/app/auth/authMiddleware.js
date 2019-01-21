@@ -1,3 +1,4 @@
+const config = require('../config');
 const jwtVerify = require('./jwtVerify');
 const handleErrorsAsync = require('../utils/handleErrorsAsync');
 
@@ -9,7 +10,7 @@ const authMiddleware = jwtSecret => async (req,res,next) => {
     return res.status(403).send({ error: true, message: 'No token provided.' });
   }
 
-  const [ error, decoded ] = await handleErrorsAsync( jwtVerify(token, jwtSecret) );
+  const [ error, decoded ] = await handleErrorsAsync( jwtVerify(token, config.app.jwtSecret) );
 
   if (error) {
     return res.status(401).json({"error": true, "message": 'Unauthorized access.' });

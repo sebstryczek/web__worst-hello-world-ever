@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
-const jwtVerify = (token, jwtSecret) => new Promise((resolve, reject) => {
-  jwt.verify(token, jwtSecret, (err, decodedToken) => {
+const jwtVerify = token => new Promise((resolve, reject) => {
+  jwt.verify(token, config.app.jwtSecret, (err, decodedToken) => {
     if (err || !decodedToken) {
       return reject(err)
     }

@@ -10,12 +10,10 @@ const options = {
   But the client app tries to use the JWT from “http://xyz.in”,
   then server should throw 403 Forbidden error as the audience identification fails to match.
   */
-  expiresIn: 0,
+  expiresIn: '1h',
   algorithm: 'HS256',
 };
 
-const generateToken = (id, secret, life) => jwt.sign(
-  { id }, secret, {...options, expiresIn: life, subject: id.toString()}
-);
+const generateToken = jwtSecret => id => jwt.sign( { id }, jwtSecret, {...options, subject: id.toString()} );
 
 module.exports = generateToken;

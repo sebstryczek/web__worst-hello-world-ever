@@ -12,8 +12,13 @@ const createServer = db => async appConfig => {
   app.use( bodyParser.json() );
   /* *** */
 
+  const authService = {
+    generateToken: require('./auth/generateToken')(appConfig.jwtSecret),
+    authMiddleware: require('./auth/authMiddleware')(appConfig.jwtSecret)
+  }
+
   /* Routes */
-  const router = createRouter(db)(appConfig);
+  const router = createRouter(db)(authService);
   app.use( router );
   /* *** */
 

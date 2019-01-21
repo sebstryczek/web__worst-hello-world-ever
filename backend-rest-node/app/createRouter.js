@@ -1,10 +1,8 @@
 const express = require('express');
 
-const createRouter = db => appConfig => {
+const createRouter = db => ({ generateToken, authMiddleware }) => {
   const router = express.Router();
-  const authMiddleware = require('./auth/authMiddleware')(appConfig.jwtSecret)
-
-  router.use( '/auth', require('./routes/auth')(db)(appConfig) );
+  router.use( '/auth', require('./routes/auth')(db)(generateToken) );
   router.use( '/users', authMiddleware, require('./routes/users')(db) );
 
   // router.route('/')
