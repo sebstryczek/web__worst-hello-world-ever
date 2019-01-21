@@ -1,5 +1,5 @@
 import duckInitialState from './duck.initialState';
-import { QUACK_REQUESTED, QUACK_DONE, QUACK_FAILED } from './duck.types';
+import { QUACK_REQUESTED, QUACK_DONE, QUACK_FAILED } from './duck.actionTypes';
 
 const duckReducer = (state = duckInitialState, action) => {
   //console.log(action.type);

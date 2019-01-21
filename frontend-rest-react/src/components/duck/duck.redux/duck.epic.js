@@ -2,7 +2,7 @@ import { ofType } from "redux-observable";
 import { mapTo } from 'rxjs/operators';
 
 import duckActions from './duck.actions';
-import { QUACK_REQUESTED } from './duck.types';
+import { QUACK_REQUESTED } from './duck.actionTypes';
 
 /*
 import { of } from 'rxjs';

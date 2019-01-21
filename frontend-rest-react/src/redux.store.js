@@ -6,7 +6,7 @@ import {
 } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 
-import { duckEpic, duckReducer } from './duck';
+import { duckEpic, duckReducer } from './components/duck/duck.redux';
 
 const rootReducer = combineReducers({
   duckReducer,
