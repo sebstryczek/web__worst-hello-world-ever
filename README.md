@@ -1,1 +1,1 @@
-# web__worst-hello-world-ever
+# worst-hello-world-ever

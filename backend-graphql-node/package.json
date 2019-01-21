@@ -1,0 +1,32 @@
+{
+  "name": "cool-stuff-backend-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sequelize": "sequelize --options-path=src/database/sequelize.js",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.1",
+    "body-parser": "^1.18.3",
+    "cross-env": "^5.2.0",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-graphql": "^0.6.12",
+    "express-jwt": "^5.3.1",
+    "graphql": "^0.13.2",
+    "graphql-tools": "^4.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "mysql2": "^1.6.1",
+    "sequelize": "^4.39.0",
+    "sequelize-cli": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.2"
+  }
+}
