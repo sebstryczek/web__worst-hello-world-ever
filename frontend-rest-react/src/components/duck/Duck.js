@@ -1,7 +1,5 @@
-import React from 'react'
-import { connect } from 'react-redux';
-
-import { duckActions } from './duck.redux/';
+import React from 'react';
+import { duckConnector } from './duck.redux/duck.connector';
 
 const Duck = props => (
   <div>
@@ -12,13 +10,6 @@ const Duck = props => (
   </div>
 )
 
-
-const mapStateToProps = state => ({
-  quacks: state.duckReducer.quacks,
-});
-
-const mapDispatchToProps = dispatch => ({
-  quackRequested: () => dispatch(duckActions.quackRequested()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Duck);
+//export default Duck;
+export default duckConnector( Duck );
+ 
