@@ -2,7 +2,7 @@ const jwtVerify = require('./jwtVerify');
 const handleErrorsAsync = require('../utils/handleErrorsAsync');
 
 const authMiddleware = jwtSecret => async (req,res,next) => {
-  const authorization = req.get('authorization');
+  const authorization = req.get('authorization') || '';
   const token = authorization.split('Bearer ')[1];
 
   if (!token) {
