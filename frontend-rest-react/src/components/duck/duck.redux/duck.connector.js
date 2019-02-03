@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { duckActions } from './duck.actions';
+import duckActions from './duck.actions';
 
 const mapStateToProps = state => ({
   quacks: state.duckReducer.quacks,

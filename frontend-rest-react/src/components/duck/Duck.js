@@ -1,5 +1,5 @@
 import React from 'react';
-import { duckConnector } from './duck.redux/duck.connector';
+import duckConnector from './duck.redux/duck.connector';
 
 const Duck = props => (
   <div>
