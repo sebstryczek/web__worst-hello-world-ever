@@ -15,7 +15,7 @@ const authController = db => appConfig => {
       }
     }
 
-    const id = user._id
+    const id = user._id;
     const token = generateToken(id, appConfig.jwtSecret, appConfig.jwtTokenLife);
     const refreshToken = generateToken(id, appConfig.jwtRefreshSecret, appConfig.jwtRefreshTokenLife);
     const response = { token, refreshToken };
