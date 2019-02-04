@@ -6,13 +6,16 @@ import {
 } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 
+import { authReducer, authEpic } from './components/auth/auth.redux';
 import { duckEpic, duckReducer } from './components/duck/duck.redux';
 
 const rootReducer = combineReducers({
+  authReducer,
   duckReducer,
 });
 
 const rootEpic = combineEpics(
+  authEpic,
   duckEpic,
 )
 

@@ -1,10 +1,11 @@
 import React from 'react';
-import Duck from '../components/duck/Duck';
 
-const Page = props => (
+const Page = ({ data }) => (
   <>
     <h1>Page</h1>
-    <Duck />
+    {
+      JSON.stringify(data)
+    }
   </>
 );
 
