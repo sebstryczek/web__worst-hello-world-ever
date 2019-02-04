@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const createRouter = require('./createRouter');
 
 const createServer = db => async appConfig => {
@@ -8,6 +9,7 @@ const createServer = db => async appConfig => {
   /* *** */
   
   /* Middlewares */
+  app.use( cors() );
   app.use( bodyParser.urlencoded({ extended: true }) );
   app.use( bodyParser.json() );
   /* *** */

@@ -3,7 +3,7 @@ const usersController = db => {
 
   const index = async (req, res, next) => {
     const users = await userModel.find();
-    const usersWithoutPassword = users.map(x => ({ id: x._id, emaik: x.email }));
+    const usersWithoutPassword = users.map(x => ({ id: x._id, email: x.email }));
     return res.status(200).json(usersWithoutPassword);
   };
   
